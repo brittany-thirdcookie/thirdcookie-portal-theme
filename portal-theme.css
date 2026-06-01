@@ -1,0 +1,119 @@
+/* =============================================
+   THIRD COOKIE — CODE LIBRARY
+   =============================================
+   File:         portal-theme.css
+   Type:         Theme (full stylesheet)
+
+   Origin:       Hand-authored for Moxie portal customization
+   Site/Project: Third Cookie agency portal (Moxie)
+   Location:     Loaded via Moxie → Customization → Custom code
+                 (see portal-custom-code.js). Served from this repo's
+                 main branch via jsDelivr CDN.
+
+   Migrated:     June 2026
+   Status:       Active — iterating
+
+   Description:
+   Global brand theme applied across every Third Cookie
+   Moxie client portal screen. Restyles surface, type, and
+   controls; component-level rules added incrementally as
+   real Moxie class names are captured (see
+   tools/capture-moxie-classes.js).
+
+   Dependencies:
+   - Barlow (Google Fonts)
+   - Stratos + ab-megadot9 (Adobe Typekit kit wte8zqm)
+   - jsDelivr CDN delivery
+
+   Accessibility:
+   - :focus-visible outline (3px persimmon, 2px offset) — WCAG 2.4.7
+   - text-rendering:optimizeLegibility + -webkit-font-smoothing:antialiased
+   - TODO: verify scrollbar-color contrast (WCAG 1.4.11)
+   - TODO: confirm color token combinations meet AA on every surface
+
+   Last Updated: 2026-06-01
+   Updated By:   Brittany
+   ============================================= */
+
+/* ---- 1. tokens ---------------------------------------------------------- */
+:root{
+  --tc-persimmon:#e4572e;  --tc-persimmon-dk:#c8431f;
+  --tc-ink:#242323;        --tc-muted:#6f6a64;
+  --tc-soft:#fcfcf9;       --tc-stone:#e6e2d3;
+  --tc-stone-dk:#d8d2c0;   --tc-line:#e2ddd0;
+  --tc-shadow-tan:#cdc3a9;
+  --tc-display:"stratos","Barlow",system-ui,sans-serif;
+  --tc-body:"Barlow",system-ui,-apple-system,sans-serif;
+  --tc-dot:"ab-megadot9","Barlow",monospace;
+  --tc-radius:14px;
+}
+
+/* ---- 2. type (broad + safe) -------------------------------------------- */
+body, button, input, select, textarea{
+  font-family:var(--tc-body);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1, h2, h3, h4{
+  font-family:var(--tc-display);
+  font-weight:500;
+  letter-spacing:-.01em;
+}
+
+/* ---- 3. page surface: echo the welcome background's faint grid ---------- */
+/* Safe default = paint <body>. If a content wrapper sits on top with its own
+   solid fill, we'll move this rule onto that wrapper once we know its class. */
+body{
+  background-color:var(--tc-soft);
+  background-image:
+    linear-gradient(rgba(36,35,35,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36,35,35,.035) 1px, transparent 1px);
+  background-size:46px 46px;
+  background-attachment:fixed;
+}
+
+/* ---- 4. controls -------------------------------------------------------- */
+/* Brand uses SQUARE controls (no pills). Aggressive on purpose; scope down
+   if it catches a control we want to leave alone. !important is intentional
+   to win over Moxie's built-in component styles. */
+button, [type=button], [type=submit], .btn{ border-radius:0 !important; }
+input, select, textarea{ border-radius:0 !important; }
+
+:focus-visible{ outline:3px solid var(--tc-persimmon) !important; outline-offset:2px; }
+
+*{ scrollbar-width:thin; scrollbar-color:var(--tc-stone-dk) transparent; }
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-thumb{ background:var(--tc-stone-dk); }
+::-webkit-scrollbar-track{ background:transparent; }
+
+/* ---- 5. component targets ---------------------------------------------- */
+/* Rules below use .PLACEHOLDER-* selectors so they don't match anything in
+   production. Capture the real Moxie class names with
+   tools/capture-moxie-classes.js, then rename each .PLACEHOLDER-* below to
+   the actual class — the rule goes live the moment the selector is right. */
+
+.PLACEHOLDER-statcard{
+  background:var(--tc-stone);
+  border:1.5px solid var(--tc-line);
+  border-radius:var(--tc-radius);
+  box-shadow:none;
+}
+.PLACEHOLDER-statcard__label{
+  font-family:var(--tc-dot);
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--tc-muted);
+}
+
+/* Sidenav is already dark; only override the active-item accent */
+.PLACEHOLDER-sidenav{ background:var(--tc-ink); }
+.PLACEHOLDER-sidenav__item--active{ color:var(--tc-persimmon); }
+
+.PLACEHOLDER-table thead th{
+  font-family:var(--tc-dot);
+  font-size:11.5px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--tc-muted);
+}
