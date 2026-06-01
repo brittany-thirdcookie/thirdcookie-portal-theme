@@ -86,34 +86,104 @@ input, select, textarea{ border-radius:0 !important; }
 ::-webkit-scrollbar-thumb{ background:var(--tc-stone-dk); }
 ::-webkit-scrollbar-track{ background:transparent; }
 
-/* ---- 5. component targets ---------------------------------------------- */
-/* Rules below use .PLACEHOLDER-* selectors so they don't match anything in
-   production. Capture the real Moxie class names with
-   tools/capture-moxie-classes.js, then rename each .PLACEHOLDER-* below to
-   the actual class — the rule goes live the moment the selector is right. */
+/* =========================================================================
+   5. COMPONENT TARGETS — Moxie portal (Vuetify 2 + Moxie custom classes)
+      Captured 2026-06-01. Everything is scoped under .v-application so it
+      out-specifies Vuetify's base styles without spraying !important
+      everywhere. Lines marked (GUESS) are inferred from the class dump and
+      should be confirmed against a screenshot of the live portal.
+   ========================================================================= */
 
-.PLACEHOLDER-statcard{
+/* ---- 5a. type routing --------------------------------------------------
+   Moxie tags its own headings with .brand-bold / .brand-medium / .module-title.
+   Route those to Stratos (editorial ~500, not black); everything else
+   inherits Barlow from .v-application. */
+.v-application{ font-family:var(--tc-body); }
+.v-application .brand-bold,
+.v-application .brand-medium,
+.v-application .module-title{
+  font-family:var(--tc-display);
+  font-weight:500;
+  letter-spacing:-.01em;
+}
+
+/* ---- 5b. KPI / stat cards ----------------------------------------------
+   .kpi-box  = dashboard metric card
+   .secondary-box = lighter sub-panel
+   Brand treatment: rounded surface, Warm-Stone fill, a real hairline border,
+   depth from the border — not a blurry drop shadow. */
+.kpi-box{
   background:var(--tc-stone);
   border:1.5px solid var(--tc-line);
   border-radius:var(--tc-radius);
   box-shadow:none;
 }
-.PLACEHOLDER-statcard__label{
+.secondary-box{
+  background:var(--tc-soft);
+  border:1.5px solid var(--tc-line);
+  border-radius:var(--tc-radius);
+  box-shadow:none;
+}
+/* big metric number */
+.kpi-box .font-24{
+  font-family:var(--tc-display);
+  font-weight:500;
+  font-variant-numeric:tabular-nums;
+  color:var(--tc-ink);
+}
+/* metric label — Megadot dot-matrix eyebrow (GUESS: small label is .font-12) */
+.kpi-box .font-12{
   font-family:var(--tc-dot);
-  font-size:12px;
-  letter-spacing:.14em;
+  letter-spacing:.12em;
   text-transform:uppercase;
   color:var(--tc-muted);
 }
 
-/* Sidenav is already dark; only override the active-item accent */
-.PLACEHOLDER-sidenav{ background:var(--tc-ink); }
-.PLACEHOLDER-sidenav__item--active{ color:var(--tc-persimmon); }
+/* ---- 5c. side nav ------------------------------------------------------
+   .nav-link-expanded rows · .nav-label text · .nav-link-active current page ·
+   .settings-link footer links. Active + hover = persimmon, with a crisp
+   left rail on the active item. (Nav background left alone — Moxie already
+   themes it; revisit once we see it.) */
+.nav-label{ font-family:var(--tc-body); font-weight:500; }
+.nav-link-expanded:hover .nav-label{ color:var(--tc-persimmon); }
+.nav-link-active,
+.nav-link-active .nav-label,
+.nav-link-active .v-icon{ color:var(--tc-persimmon) !important; }
+.nav-link-active{ box-shadow:inset 3px 0 0 var(--tc-persimmon); }
+.settings-link:hover{ color:var(--tc-persimmon); }
 
-.PLACEHOLDER-table thead th{
-  font-family:var(--tc-dot);
-  font-size:11.5px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
+/* ---- 5d. tabs ----------------------------------------------------------
+   .tabs-component > .tabs-wrapper > .tab-item(.selected). Selected gets a
+   square persimmon underline; idle tabs are muted ink. */
+.tab-item{
+  font-family:var(--tc-body);
+  font-weight:500;
   color:var(--tc-muted);
+  border-bottom:2px solid transparent;
+}
+.tab-item:hover{ color:var(--tc-ink); }
+.tab-item.selected{
+  color:var(--tc-ink);
+  border-bottom-color:var(--tc-persimmon);
+}
+
+/* ---- 5e. buttons -------------------------------------------------------
+   Section 4 squares all <button>/.v-btn. Restore the genuinely round ones
+   (icon buttons, FABs, avatars) so they don't become squares. */
+.v-btn--icon,
+.v-btn--round,
+.v-btn--fab,
+.v-avatar,
+.profile-pic{ border-radius:50% !important; }
+
+/* Accent (primary-action) buttons → persimmon.
+   FLAGGED: .accent is a Vuetify theme slot. If Moxie already wires persimmon
+   into a different slot this may double up — comment this block out if it
+   fights the existing palette. */
+.v-application .v-btn.accent{
+  background-color:var(--tc-persimmon) !important;
+  color:#fff !important;
+}
+.v-application .v-btn.accent:hover{
+  background-color:var(--tc-persimmon-dk) !important;
 }
