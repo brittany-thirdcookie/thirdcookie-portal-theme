@@ -16,7 +16,9 @@
    Description:
    Injects brand fonts (Barlow via Google Fonts, Stratos +
    ab-megadot9 via Adobe Typekit) and loads portal-theme.css
-   from this repo via jsDelivr CDN.
+   from this repo via jsDelivr CDN. Includes a LIVE_PREVIEW
+   toggle that cache-busts the theme URL for instant updates
+   during iteration.
 
    Dependencies:
    - portal-theme.css (this repo, main branch)
@@ -44,11 +46,19 @@
   link('https://use.typekit.net/wte8zqm.css');
 
   // 2) Hosted theme stylesheet.
-  //    @main serves the latest commit on main. jsDelivr caches ~12h.
-  //    Instant refresh options:
-  //      • jsDelivr purge tool: https://www.jsdelivr.com/tools/purge
-  //      • Cache-bust query: append ?v=YYYYMMDD-N and bump the value
-  //      • Pin to a commit hash during heavy iteration: @<sha> instead of @main
-  //    Branch preview: replace @main with @<branch-name> (e.g. @theme-sidenav)
-  link('https://cdn.jsdelivr.net/gh/brittany-thirdcookie/thirdcookie-portal-theme@main/portal-theme.css');
+  //    @main caches ~12h at jsDelivr's edge AND up to 7 days in the browser,
+  //    so without a buster a fresh push can take hours/days to appear.
+  //
+  //    LIVE_PREVIEW=true appends ?v=<timestamp> on every load → each request
+  //    is a unique URL, so jsDelivr re-fetches the latest commit and the
+  //    browser can't serve a stale copy. Effectively instant on push.
+  //    Trade-off: the theme is no longer cached. Set LIVE_PREVIEW=false once
+  //    iteration settles to restore ~12h caching for production.
+  //
+  //    Manual levers: jsDelivr purge tool (https://www.jsdelivr.com/tools/purge)
+  //    or pin to a commit @<sha>. Branch preview: swap @main for @<branch-name>
+  //    (e.g. @theme-sidenav) — the buster works there too.
+  var LIVE_PREVIEW = true;
+  var theme = 'https://cdn.jsdelivr.net/gh/brittany-thirdcookie/thirdcookie-portal-theme@main/portal-theme.css';
+  link(LIVE_PREVIEW ? theme + '?v=' + Date.now() : theme);
 })();
