@@ -24,12 +24,17 @@
    - Barlow (Google Fonts)
    - Stratos + ab-megadot9 (Adobe Typekit kit wte8zqm)
    - jsDelivr CDN delivery
+   - Archivo / DotGothic16 appear only as .tcwp fallback names —
+     NOT loaded by the loader; inert unless added there
 
    Accessibility:
    - :focus-visible outline (3px persimmon, 2px offset) — WCAG 2.4.7
    - text-rendering:optimizeLegibility + -webkit-font-smoothing:antialiased
+   - .tcwp hover motion (lift/translate) respects prefers-reduced-motion
    - TODO: verify scrollbar-color contrast (WCAG 1.4.11)
    - TODO: confirm color token combinations meet AA on every surface
+   - TODO: persimmon small-text labels/links land ~2.9–3.7:1 on light
+     surfaces (under AA) — treat as accent, not body copy
 
    Last Updated: 2026-06-01
    Updated By:   Brittany
@@ -186,4 +191,100 @@ input, select, textarea{ border-radius:0 !important; }
 }
 .v-application .v-btn.accent:hover{
   background-color:var(--tc-persimmon-dk) !important;
+}
+
+/* =========================================================================
+   6. CUSTOM WELCOME PAGE  (.tcwp)
+      Moxie's page editor strips <style>/<script> on paste, but KEEPS classes.
+      So the welcome page is pasted as pure classed markup and styled from
+      here. Everything is scoped under .tcwp, so these rules are inert on
+      every other portal screen. Update once, every client's welcome page
+      follows. Source of truth for the markup: "Welcome Page.html".
+   ========================================================================= */
+.tcwp{
+  --persimmon:#e4572e; --persimmon-dk:#c8431f;
+  --ink:#242323; --muted:#6f6a64; --soft:#fcfcf9; --stone:#e6e2d3; --stone-dk:#d8d2c0;
+  --line:#e2ddd0; --shadow-tan:#cdc3a9;
+  --display:"stratos","Archivo","Barlow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,sans-serif;
+  --dot:"ab-megadot9","DotGothic16","Barlow",monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+  box-sizing:border-box;font-family:var(--body);color:var(--ink);background:var(--soft);
+  padding:clamp(24px,3.5vw,52px);-webkit-font-smoothing:antialiased;
+}
+.tcwp *{box-sizing:border-box;}
+.tcwp a{color:inherit;text-decoration:none;}
+.tcwp .wrap{max-width:1180px;margin:0 auto;}
+
+/* hero bar — dashboard bar with the editorial headline */
+.tcwp .hero{border:2px solid var(--ink);border-radius:20px;background:var(--stone);
+  padding:clamp(28px,3vw,44px);display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;justify-content:space-between;}
+.tcwp .hero .hl{flex:1 1 380px;min-width:0;}
+.tcwp .eyebrow{font-family:var(--dot);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--persimmon);margin-bottom:16px;}
+.tcwp .hero h1{font-family:var(--display);font-weight:500;font-size:clamp(44px,6vw,68px);line-height:1.0;letter-spacing:-.02em;margin:0 0 18px;}
+.tcwp .hero h1 .dot{color:var(--persimmon);}
+.tcwp .hero .intro{margin:0;font-size:18px;line-height:1.55;color:#4a4641;max-width:56ch;}
+.tcwp .hero .intro b{font-weight:600;color:var(--ink);}
+
+/* what's new mini card */
+.tcwp .wn{flex:0 0 auto;width:min(320px,100%);background:#fff;border:2px solid var(--ink);border-radius:14px;padding:20px;transition:transform .18s var(--ease),box-shadow .18s var(--ease);}
+.tcwp .wn:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--shadow-tan);}
+.tcwp .wn .lab{font-family:var(--dot);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--persimmon);margin-bottom:9px;}
+.tcwp .wn .pj{font-size:16px;font-weight:600;line-height:1.3;}
+.tcwp .wn .sb{font-size:13.5px;color:var(--muted);margin-top:4px;}
+.tcwp .wn .rev{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--persimmon);}
+.tcwp .wn .rev svg{width:14px;height:14px;}
+
+/* section label */
+.tcwp .lbl{font-family:var(--dot);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:44px 0 16px;}
+
+/* quick links row */
+.tcwp .quick{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:14px;}
+.tcwp .q{display:flex;flex-direction:column;gap:10px;border:1.5px solid var(--line);border-radius:14px;background:#fff;padding:18px;
+  transition:border-color .18s var(--ease),transform .18s var(--ease),box-shadow .18s var(--ease);}
+.tcwp .q:hover{border-color:var(--stone-dk);transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--shadow-tan);}
+.tcwp .q .qi{width:36px;height:36px;border-radius:9px;background:var(--stone);display:flex;align-items:center;justify-content:center;}
+.tcwp .q .qi svg{width:19px;height:19px;color:var(--ink);}
+.tcwp .q .qn{font-weight:600;font-size:16px;}
+.tcwp .q .qd{font-size:13px;color:var(--muted);line-height:1.35;}
+
+/* two-column lower */
+.tcwp .grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:24px;align-items:start;margin-top:44px;}
+@media (max-width:860px){.tcwp .grid2{grid-template-columns:1fr;}}
+.tcwp .panel{border:1.5px solid var(--line);border-radius:18px;background:#fff;padding:clamp(22px,2.5vw,32px);}
+.tcwp .panel > h2{font-family:var(--display);font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 6px;}
+.tcwp .panel > .psub{font-size:14.5px;color:var(--muted);margin:0 0 22px;}
+
+/* training grouped list */
+.tcwp .tg{margin-top:20px;}
+.tcwp .tg:first-of-type{margin-top:0;}
+.tcwp .tg .th{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.tcwp .tg .th .d{width:8px;height:8px;border-radius:50%;background:var(--persimmon);flex:0 0 auto;}
+.tcwp .tg .th .n{font-weight:700;font-size:15px;}
+.tcwp .tg .th .m{font-family:var(--dot);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+.tcwp .trow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 4px;border-top:1px solid var(--line);transition:.16s var(--ease);}
+.tcwp .trow:hover{padding-left:10px;}
+.tcwp .trow .rt{font-size:15px;font-weight:500;}
+.tcwp .trow .ro{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--persimmon);}
+.tcwp .trow .ro svg{width:13px;height:13px;}
+
+/* aside contact */
+.tcwp .aside{display:flex;flex-direction:column;gap:18px;}
+.tcwp .card-stone{border:2px solid var(--ink);border-radius:18px;background:var(--stone);padding:26px;}
+.tcwp .card-stone h3{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 8px;letter-spacing:-.01em;}
+.tcwp .card-stone p{margin:0 0 18px;font-size:14.5px;color:#4a4641;line-height:1.5;}
+.tcwp .cbtn{display:flex;align-items:center;gap:10px;width:100%;border:1.5px solid var(--ink);background:var(--soft);padding:13px 16px;font-weight:600;font-size:14.5px;margin-bottom:10px;transition:.18s var(--ease);}
+.tcwp .cbtn:last-child{margin-bottom:0;}
+.tcwp .cbtn svg{width:17px;height:17px;color:var(--persimmon);}
+.tcwp .cbtn:hover{background:var(--persimmon);color:#fff;border-color:var(--persimmon);}
+.tcwp .cbtn:hover svg{color:#fff;}
+.tcwp .tip{border:1.5px dashed var(--stone-dk);border-radius:14px;padding:18px 20px;font-size:14px;color:var(--muted);line-height:1.5;}
+.tcwp .tip b{color:var(--ink);font-weight:600;}
+
+/* reduced motion — neutralize .tcwp hover movement; keep color/border
+   feedback (those aren't motion). WCAG 2.3.3 */
+@media (prefers-reduced-motion:reduce){
+  .tcwp .wn, .tcwp .q, .tcwp .trow, .tcwp .cbtn{ transition:none; }
+  .tcwp .wn:hover, .tcwp .q:hover{ transform:none; box-shadow:none; }
+  .tcwp .trow:hover{ padding-left:4px; }
 }
