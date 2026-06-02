@@ -22,3 +22,9 @@ logs/
 # Misc
 .tmp/
 *.bak
+
+# Licensed icon source set (Pixelarticons Pro) — NEVER commit raw files to
+# this PUBLIC repo. License forbids redistributing the icon files as-is.
+# Only the inlined data-URI subset in icons.css ships from here; the master
+# set lives in a private repo / locally.
+icons/
