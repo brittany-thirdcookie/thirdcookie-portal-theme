@@ -17,8 +17,9 @@
    Injects brand fonts (Barlow via Google Fonts, Stratos +
    ab-megadot9 via Adobe Typekit) and loads portal-theme.css
    from this repo via jsDelivr CDN. Includes a LIVE_PREVIEW
-   toggle that cache-busts the theme URL for instant updates
-   during iteration.
+   toggle that resolves the branch's latest commit SHA via the
+   GitHub API and loads that immutable commit, so pushes appear
+   instantly during iteration (bypasses jsDelivr's branch cache).
 
    Dependencies:
    - portal-theme.css (this repo, main branch)
@@ -46,19 +47,29 @@
   link('https://use.typekit.net/wte8zqm.css');
 
   // 2) Hosted theme stylesheet.
-  //    @main caches ~12h at jsDelivr's edge AND up to 7 days in the browser,
-  //    so without a buster a fresh push can take hours/days to appear.
+  //    jsDelivr caches the @main branch->commit resolution for ~12h, so loading
+  //    @main can serve stale CSS for hours after a push. A ?v= query busts the
+  //    file cache but NOT that branch lookup — so it can't fix this on its own.
   //
-  //    LIVE_PREVIEW=true appends ?v=<timestamp> on every load → each request
-  //    is a unique URL, so jsDelivr re-fetches the latest commit and the
-  //    browser can't serve a stale copy. Effectively instant on push.
-  //    Trade-off: the theme is no longer cached. Set LIVE_PREVIEW=false once
-  //    iteration settles to restore ~12h caching for production.
-  //
-  //    Manual levers: jsDelivr purge tool (https://www.jsdelivr.com/tools/purge)
-  //    or pin to a commit @<sha>. Branch preview: swap @main for @<branch-name>
-  //    (e.g. @theme-sidenav) — the buster works there too.
-  var LIVE_PREVIEW = true;
-  var theme = 'https://cdn.jsdelivr.net/gh/brittany-thirdcookie/thirdcookie-portal-theme@main/portal-theme.css';
-  link(LIVE_PREVIEW ? theme + '?v=' + Date.now() : theme);
+  //    LIVE_PREVIEW=true resolves the branch's latest commit SHA from the GitHub
+  //    API and loads that immutable commit from jsDelivr. A SHA is never cached
+  //    stale, so the newest push appears instantly. Falls back to @<BRANCH> if
+  //    the API is unreachable / rate-limited (60 req/hr per IP, unauth).
+  //    Set LIVE_PREVIEW=false for production: loads @<BRANCH> directly — one
+  //    request, no API dependency, normal ~12h caching.
+  var REPO   = 'brittany-thirdcookie/thirdcookie-portal-theme';
+  var BRANCH = 'main';      // set to a feature branch name to preview that branch
+  var LIVE_PREVIEW = true;  // true = instant (SHA-resolved); false = cached @<BRANCH>
+  function themeAt(ref){
+    return 'https://cdn.jsdelivr.net/gh/' + REPO + '@' + ref + '/portal-theme.css';
+  }
+  if (LIVE_PREVIEW) {
+    fetch('https://api.github.com/repos/' + REPO + '/commits/' + BRANCH,
+          { headers: { Accept: 'application/vnd.github.sha' } })
+      .then(function (r){ return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function (sha){ link(themeAt(sha.trim())); })
+      .catch(function (){ link(themeAt(BRANCH)); });
+  } else {
+    link(themeAt(BRANCH));
+  }
 })();
