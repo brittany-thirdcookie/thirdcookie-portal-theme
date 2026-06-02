@@ -36,7 +36,7 @@
    - TODO: persimmon small-text labels/links land ~2.9–3.7:1 on light
      surfaces (under AA) — treat as accent, not body copy
 
-   Last Updated: 2026-06-01
+   Last Updated: 2026-06-02
    Updated By:   Brittany
    ============================================= */
 
@@ -226,14 +226,20 @@ input, select, textarea{ border-radius:0 !important; }
 .tcwp .hero .intro{margin:0;font-size:18px;line-height:1.55;color:#4a4641;max-width:56ch;}
 .tcwp .hero .intro b{font-weight:600;color:var(--ink);}
 
-/* what's new mini card */
-.tcwp .wn{flex:0 0 auto;width:min(320px,100%);background:#fff;border:2px solid var(--ink);border-radius:14px;padding:20px;transition:transform .18s var(--ease),box-shadow .18s var(--ease);}
+/* what's new mini card
+   NOTE: .wn is a <div> (NOT an <a>). Moxie's paste sanitizer hoists block
+   children out of anchors, which exploded this card in the live portal. The
+   card is a div; only the inner .rev is a link, and its arrow is drawn in CSS
+   (::after) because pasted inline <svg> is stripped. */
+.tcwp .wn{flex:0 0 auto;width:min(320px,100%);background:#fff;border:2px solid var(--ink);border-radius:14px;padding:22px;transition:transform .18s var(--ease),box-shadow .18s var(--ease);}
 .tcwp .wn:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--shadow-tan);}
 .tcwp .wn .lab{font-family:var(--dot);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--persimmon);margin-bottom:9px;}
 .tcwp .wn .pj{font-size:16px;font-weight:600;line-height:1.3;}
 .tcwp .wn .sb{font-size:13.5px;color:var(--muted);margin-top:4px;}
-.tcwp .wn .rev{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--persimmon);}
-.tcwp .wn .rev svg{width:14px;height:14px;}
+.tcwp .wn .rev{margin-top:16px;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--persimmon);}
+.tcwp .wn .rev::after{content:"";width:7px;height:7px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);transition:transform .18s var(--ease);}
+.tcwp .wn:hover .rev::after{transform:translate(2px,0) rotate(45deg);}
+.tcwp .wn .rev svg{display:none;}
 
 /* section label */
 .tcwp .lbl{font-family:var(--dot);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:44px 0 16px;}
@@ -259,25 +265,34 @@ input, select, textarea{ border-radius:0 !important; }
 .tcwp .tg{margin-top:20px;}
 .tcwp .tg:first-of-type{margin-top:0;}
 .tcwp .tg .th{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
-.tcwp .tg .th .d{width:8px;height:8px;border-radius:50%;background:var(--persimmon);flex:0 0 auto;}
+/* persimmon dot drawn in CSS so it survives the paste (an empty <span> is stripped) */
+.tcwp .tg .th::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--persimmon);flex:0 0 auto;}
+.tcwp .tg .th .d{display:none;}
 .tcwp .tg .th .n{font-weight:700;font-size:15px;}
 .tcwp .tg .th .m{font-family:var(--dot);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
 .tcwp .trow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 4px;border-top:1px solid var(--line);transition:.16s var(--ease);}
 .tcwp .trow:hover{padding-left:10px;}
 .tcwp .trow .rt{font-size:15px;font-weight:500;}
-.tcwp .trow .ro{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--persimmon);}
-.tcwp .trow .ro svg{width:13px;height:13px;}
+.tcwp .trow .ro{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--persimmon);}
+/* "Open" arrow drawn in CSS (pasted <svg> is stripped); points up-right */
+.tcwp .trow .ro::after{content:"";width:6px;height:6px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(-45deg);}
+.tcwp .trow:hover .ro{transform:translate(2px,-2px);}
+.tcwp .trow .ro svg{display:none;}
 
 /* aside contact */
 .tcwp .aside{display:flex;flex-direction:column;gap:18px;}
 .tcwp .card-stone{border:2px solid var(--ink);border-radius:18px;background:var(--stone);padding:26px;}
 .tcwp .card-stone h3{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 8px;letter-spacing:-.01em;}
 .tcwp .card-stone p{margin:0 0 18px;font-size:14.5px;color:#4a4641;line-height:1.5;}
-.tcwp .cbtn{display:flex;align-items:center;gap:10px;width:100%;border:1.5px solid var(--ink);background:var(--soft);padding:13px 16px;font-weight:600;font-size:14.5px;margin-bottom:10px;transition:.18s var(--ease);}
+/* contact buttons — no <svg> (stripped on paste). Label left, CSS chevron right. */
+.tcwp .cbtn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:1.5px solid var(--ink);background:var(--soft);padding:14px 16px;font-weight:600;font-size:14.5px;margin-bottom:10px;transition:.18s var(--ease);}
 .tcwp .cbtn:last-child{margin-bottom:0;}
-.tcwp .cbtn svg{width:17px;height:17px;color:var(--persimmon);}
+.tcwp .cbtn::after{content:"";flex:0 0 auto;width:7px;height:7px;border-top:2px solid var(--persimmon);border-right:2px solid var(--persimmon);transform:rotate(45deg);transition:.18s var(--ease);}
+.tcwp .cbtn .sub{font-weight:400;font-size:12.5px;color:var(--muted);margin-left:auto;margin-right:14px;font-family:var(--dot);letter-spacing:.04em;}
 .tcwp .cbtn:hover{background:var(--persimmon);color:#fff;border-color:var(--persimmon);}
-.tcwp .cbtn:hover svg{color:#fff;}
+.tcwp .cbtn:hover .sub{color:rgba(255,255,255,.85);}
+.tcwp .cbtn:hover::after{border-color:#fff;transform:translate(2px,0) rotate(45deg);}
+.tcwp .cbtn svg{display:none;}
 .tcwp .tip{border:1.5px dashed var(--stone-dk);border-radius:14px;padding:18px 20px;font-size:14px;color:var(--muted);line-height:1.5;}
 .tcwp .tip b{color:var(--ink);font-weight:600;}
 
@@ -287,4 +302,8 @@ input, select, textarea{ border-radius:0 !important; }
   .tcwp .wn, .tcwp .q, .tcwp .trow, .tcwp .cbtn{ transition:none; }
   .tcwp .wn:hover, .tcwp .q:hover{ transform:none; box-shadow:none; }
   .tcwp .trow:hover{ padding-left:4px; }
+  /* also neutralize the CSS-drawn icon nudges (chevrons/arrow) */
+  .tcwp .wn .rev::after, .tcwp .cbtn::after{ transition:none; }
+  .tcwp .wn:hover .rev::after, .tcwp .cbtn:hover::after{ transform:rotate(45deg); }
+  .tcwp .trow:hover .ro{ transform:none; }
 }
