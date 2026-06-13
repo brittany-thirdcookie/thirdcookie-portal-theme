@@ -18,25 +18,35 @@
    Moxie client portal screen. Restyles surface, type, and
    controls; component-level rules added incrementally as
    real Moxie class names are captured (see
-   tools/capture-moxie-classes.js).
+   tools/capture-moxie-classes.js). The side nav + top bar are
+   themed to Warm Stone with persimmon active/hover states (keyed
+   to Moxie's real .nav-link-active/.active classes), and icons —
+   both the left-nav glyphs and the .tcwp welcome page — are drawn
+   from the self-hosted pixel set in icons.css.
 
    Dependencies:
    - Barlow (Google Fonts)
    - Stratos + ab-megadot9 (Adobe Typekit kit wte8zqm)
    - jsDelivr CDN delivery
+   - icons.css — pixel-icon layer. Supplies --ti-<name> data-URI
+     mask tokens (used by .tcwp ::before/::after icons here) and the
+     .tci-<name> glyph classes (left-nav icons injected by the loader).
    - Archivo / DotGothic16 appear only as .tcwp fallback names —
      NOT loaded by the loader; inert unless added there
 
    Accessibility:
    - :focus-visible outline (3px persimmon, 2px offset) — WCAG 2.4.7
    - text-rendering:optimizeLegibility + -webkit-font-smoothing:antialiased
-   - .tcwp hover motion (lift/translate) respects prefers-reduced-motion
+   - .tcwp hover motion (lift/translate + icon nudges) respects
+     prefers-reduced-motion — WCAG 2.3.3
+   - Pixel icons are decorative currentColor masks; nav active state is
+     also marked by a left rail + pill, not color alone (WCAG 1.4.1)
    - TODO: verify scrollbar-color contrast (WCAG 1.4.11)
    - TODO: confirm color token combinations meet AA on every surface
    - TODO: persimmon small-text labels/links land ~2.9–3.7:1 on light
      surfaces (under AA) — treat as accent, not body copy
 
-   Last Updated: 2026-06-02
+   Last Updated: 2026-06-13
    Updated By:   Brittany
    ============================================= */
 
@@ -79,8 +89,7 @@ body{
 
 /* ---- 4. controls -------------------------------------------------------- */
 /* Brand uses SQUARE controls (no pills). Aggressive on purpose; scope down
-   if it catches a control we want to leave alone. !important is intentional
-   to win over Moxie's built-in component styles. */
+   if it catches a control we want to leave alone. */
 button, [type=button], [type=submit], .btn{ border-radius:0 !important; }
 input, select, textarea{ border-radius:0 !important; }
 
@@ -144,18 +153,60 @@ input, select, textarea{ border-radius:0 !important; }
   color:var(--tc-muted);
 }
 
-/* ---- 5c. side nav ------------------------------------------------------
-   .nav-link-expanded rows · .nav-label text · .nav-link-active current page ·
-   .settings-link footer links. Active + hover = persimmon, with a crisp
-   left rail on the active item. (Nav background left alone — Moxie already
-   themes it; revisit once we see it.) */
-.nav-label{ font-family:var(--tc-body); font-weight:500; }
-.nav-link-expanded:hover .nav-label{ color:var(--tc-persimmon); }
-.nav-link-active,
-.nav-link-active .nav-label,
-.nav-link-active .v-icon{ color:var(--tc-persimmon) !important; }
-.nav-link-active{ box-shadow:inset 3px 0 0 var(--tc-persimmon); }
-.settings-link:hover{ color:var(--tc-persimmon); }
+/* ---- 5c. side nav  (REAL Moxie classes, captured from the platform CSS):
+   #left-nav / .left-nav-expanded container · .nav-link / .nav-link-expanded
+   rows · .nav-label text · .nav-link-active OR .active current page ·
+   .workspace-settings footer. Pixel icons are injected as <i class="tci tci-*">
+   by portal-custom-code.js. ------------------------------------------------- */
+
+/* (i) Nav + top bar surface → Warm Stone, so the whole chrome reads as one
+   brand band. !important is required to beat Moxie's --v-sidebar-base token
+   fill. The 4px persimmon left rail Moxie draws on #left-nav is on-brand — keep
+   it. THIS is the "nav colour didn't take" fix: the old file left nav alone. */
+#left-nav,
+.left-nav-expanded,
+#top-nav,
+#top-nav-wrapper,
+.workspace-settings{ background-color:var(--tc-stone) !important; }
+
+/* (ii) idle labels + injected pixel icons */
+.nav-label{ font-family:var(--tc-body); font-weight:500; color:var(--tc-ink); }
+.nav-link .tci,
+.nav-link-expanded .tci{ width:21px; height:21px; color:#56524c; }
+
+/* (iii) hover */
+.nav-link:hover .nav-label,
+.nav-link-expanded:hover .nav-label,
+.nav-link:hover .tci,
+.nav-link-expanded:hover .tci{ color:var(--tc-persimmon); }
+
+/* (iv) ACTIVE current page — Moxie tags the row .nav-link-active AND/OR .active.
+   Scope under the nav so we never catch a stray .active elsewhere. Persimmon
+   label + icon, soft-white pill, crisp persimmon left rail. THIS is the
+   "active state didn't take" fix: the old file only targeted .nav-link-active
+   and missed Moxie's .active, and put no visible fill on it. */
+#left-nav .nav-link-active,
+#left-nav a.active,
+#left-nav .active,
+.left-nav-expanded .nav-link-active,
+.left-nav-expanded .active{
+  background-color:var(--tc-soft) !important;
+  box-shadow:inset 3px 0 0 var(--tc-persimmon);
+}
+#left-nav .nav-link-active .nav-label,
+#left-nav .nav-link-active .v-icon,
+#left-nav .nav-link-active .tci,
+#left-nav .active .nav-label,
+#left-nav .active .v-icon,
+#left-nav .active .tci,
+.left-nav-expanded .nav-link-active .nav-label,
+.left-nav-expanded .nav-link-active .tci,
+.left-nav-expanded .active .nav-label,
+.left-nav-expanded .active .tci{ color:var(--tc-persimmon) !important; }
+
+/* (v) footer settings link */
+.settings-link:hover,
+.workspace-settings:hover .nav-label{ color:var(--tc-persimmon); }
 
 /* ---- 5d. tabs ----------------------------------------------------------
    .tabs-component > .tabs-wrapper > .tab-item(.selected). Selected gets a
@@ -211,6 +262,10 @@ input, select, textarea{ border-radius:0 !important; }
   --ease:cubic-bezier(.22,1,.36,1);
   box-sizing:border-box;font-family:var(--body);color:var(--ink);background:var(--soft);
   padding:clamp(24px,3.5vw,52px);-webkit-font-smoothing:antialiased;
+  /* Moxie's page content wrapper sets text-align:center; the welcome block is
+     editorial + left-aligned, so reset it here. THIS is the "Client hub /
+     welcome. aren't left aligned" fix. */
+  text-align:left;
 }
 .tcwp *{box-sizing:border-box;}
 .tcwp a{color:inherit;text-decoration:none;}
@@ -274,9 +329,15 @@ input, select, textarea{ border-radius:0 !important; }
 .tcwp .trow:hover{padding-left:10px;}
 .tcwp .trow .rt{font-size:15px;font-weight:500;}
 .tcwp .trow .ro{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--persimmon);}
-/* "Open" arrow drawn in CSS (pasted <svg> is stripped); points up-right */
-.tcwp .trow .ro::after{content:"";width:6px;height:6px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(-45deg);}
-.tcwp .trow:hover .ro{transform:translate(2px,-2px);}
+/* "Open in new tab" icon — now driven by the self-hosted pixel set (icons.css).
+   Masked SVG so the pasted markup still needs no <svg> (which the portal strips);
+   tints to currentColor. --ti-external-link is a data-URI mask token from
+   icons.css (:root) — no network request, can't be cache-stale. */
+.tcwp .trow .ro::after{content:"";width:15px;height:15px;flex:0 0 auto;background-color:currentColor;
+  -webkit-mask:var(--ti-external-link) center/contain no-repeat;
+  mask:var(--ti-external-link) center/contain no-repeat;
+  image-rendering:pixelated;transition:transform .16s var(--ease);}
+.tcwp .trow:hover .ro::after{transform:translate(1px,-1px);}
 .tcwp .trow .ro svg{display:none;}
 
 /* aside contact */
@@ -285,9 +346,16 @@ input, select, textarea{ border-radius:0 !important; }
 .tcwp .card-stone h3{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 8px;letter-spacing:-.01em;}
 .tcwp .card-stone p{margin:0 0 18px;font-size:14.5px;color:#4a4641;line-height:1.5;}
 /* contact buttons — no <svg> (stripped on paste). Label left, CSS chevron right. */
-.tcwp .cbtn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:1.5px solid var(--ink);background:var(--soft);padding:14px 16px;font-weight:600;font-size:14.5px;margin-bottom:10px;transition:.18s var(--ease);}
+.tcwp .cbtn{display:flex;align-items:center;justify-content:flex-start;gap:11px;width:100%;border:1.5px solid var(--ink);background:var(--soft);padding:14px 16px;font-weight:600;font-size:14.5px;margin-bottom:10px;transition:.18s var(--ease);}
 .tcwp .cbtn:last-child{margin-bottom:0;}
-.tcwp .cbtn::after{content:"";flex:0 0 auto;width:7px;height:7px;border-top:2px solid var(--persimmon);border-right:2px solid var(--persimmon);transform:rotate(45deg);transition:.18s var(--ease);}
+.tcwp .cbtn::after{content:"";flex:0 0 auto;margin-left:auto;width:7px;height:7px;border-top:2px solid var(--persimmon);border-right:2px solid var(--persimmon);transform:rotate(45deg);transition:.18s var(--ease);}
+/* leading icon from the self-hosted pixel set (Moxie-safe: pseudo-element + href match, no markup change) */
+.tcwp .cbtn::before{content:"";flex:0 0 auto;width:20px;height:20px;background-color:var(--persimmon);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;
+  -webkit-mask-size:contain;mask-size:contain;image-rendering:pixelated;transition:.18s var(--ease);}
+.tcwp .cbtn[href^="mailto:"]::before{-webkit-mask-image:var(--ti-mail);mask-image:var(--ti-mail);}
+.tcwp .cbtn[href^="tel:"]::before{-webkit-mask-image:var(--ti-phone);mask-image:var(--ti-phone);}
+.tcwp .cbtn:hover::before{background-color:#fff;}
 .tcwp .cbtn .sub{font-weight:400;font-size:12.5px;color:var(--muted);margin-left:auto;margin-right:14px;font-family:var(--dot);letter-spacing:.04em;}
 .tcwp .cbtn:hover{background:var(--persimmon);color:#fff;border-color:var(--persimmon);}
 .tcwp .cbtn:hover .sub{color:rgba(255,255,255,.85);}
@@ -302,8 +370,9 @@ input, select, textarea{ border-radius:0 !important; }
   .tcwp .wn, .tcwp .q, .tcwp .trow, .tcwp .cbtn{ transition:none; }
   .tcwp .wn:hover, .tcwp .q:hover{ transform:none; box-shadow:none; }
   .tcwp .trow:hover{ padding-left:4px; }
-  /* also neutralize the CSS-drawn icon nudges (chevrons/arrow) */
-  .tcwp .wn .rev::after, .tcwp .cbtn::after{ transition:none; }
+  /* neutralize the CSS-drawn icon nudges (chevrons) and the pixel-icon
+     nudge on the "open in new tab" affordance (.ro::after) */
+  .tcwp .wn .rev::after, .tcwp .cbtn::after, .tcwp .trow .ro::after{ transition:none; }
   .tcwp .wn:hover .rev::after, .tcwp .cbtn:hover::after{ transform:rotate(45deg); }
-  .tcwp .trow:hover .ro{ transform:none; }
+  .tcwp .trow:hover .ro::after{ transform:none; }
 }
