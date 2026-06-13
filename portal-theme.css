@@ -349,12 +349,19 @@ input, select, textarea{ border-radius:0 !important; }
 .tcwp .cbtn{display:flex;align-items:center;justify-content:flex-start;gap:11px;width:100%;border:1.5px solid var(--ink);background:var(--soft);padding:14px 16px;font-weight:600;font-size:14.5px;margin-bottom:10px;transition:.18s var(--ease);}
 .tcwp .cbtn:last-child{margin-bottom:0;}
 .tcwp .cbtn::after{content:"";flex:0 0 auto;margin-left:auto;width:7px;height:7px;border-top:2px solid var(--persimmon);border-right:2px solid var(--persimmon);transform:rotate(45deg);transition:.18s var(--ease);}
-/* leading icon from the self-hosted pixel set (Moxie-safe: pseudo-element + href match, no markup change) */
-.tcwp .cbtn::before{content:"";flex:0 0 auto;width:20px;height:20px;background-color:var(--persimmon);
+/* leading icon from the self-hosted pixel set (Moxie-safe: pseudo-element +
+   href match, no markup change). content + background-color live on the
+   per-scheme rules ONLY, so a button whose scheme we don't recognise renders
+   no ::before at all — never a naked persimmon box.
+   Email: Cloudflare's Email Obfuscation rewrites mailto: hrefs to
+   ../cdn-cgi/l/email-protection#<hex> (decoded back to mailto: by CF's script),
+   so match that form too. The "i" also covers a restored MAILTO:/TEL:. */
+.tcwp .cbtn::before{flex:0 0 auto;width:20px;height:20px;
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;
   -webkit-mask-size:contain;mask-size:contain;image-rendering:pixelated;transition:.18s var(--ease);}
-.tcwp .cbtn[href^="mailto:"]::before{-webkit-mask-image:var(--ti-mail);mask-image:var(--ti-mail);}
-.tcwp .cbtn[href^="tel:"]::before{-webkit-mask-image:var(--ti-phone);mask-image:var(--ti-phone);}
+.tcwp .cbtn[href^="mailto:" i]::before,
+.tcwp .cbtn[href*="/cdn-cgi/l/email-protection"]::before{content:"";background-color:var(--persimmon);-webkit-mask-image:var(--ti-mail);mask-image:var(--ti-mail);}
+.tcwp .cbtn[href^="tel:" i]::before{content:"";background-color:var(--persimmon);-webkit-mask-image:var(--ti-phone);mask-image:var(--ti-phone);}
 .tcwp .cbtn:hover::before{background-color:#fff;}
 .tcwp .cbtn .sub{font-weight:400;font-size:12.5px;color:var(--muted);margin-left:auto;margin-right:14px;font-family:var(--dot);letter-spacing:.04em;}
 .tcwp .cbtn:hover{background:var(--persimmon);color:#fff;border-color:var(--persimmon);}
