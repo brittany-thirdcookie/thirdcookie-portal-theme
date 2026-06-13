@@ -94,13 +94,12 @@
     'Home':       'home',
     'Invoices':   'invoice-text',
     'Projects':   'folders',
-    'Agreements': 'signature',
-    'Files':      'folder',
-    'Meetings':   'calendar-today',
-    'Forms':      'form',
-    'Requests':   'notebook-pen'
-    /* 'Time worked' is intentionally omitted — the licensed subset has no
-       clock/stopwatch glyph yet. Add one to the set + a line here to cover it. */
+    'Agreements':  'briefcase-check',
+    'Files':       'folder',
+    'Meetings':    'calendar-today',
+    'Forms':       'form',
+    'Requests':    'notebook-pen',
+    'Time worked': 'clock'
   };
 
   function applyNavIcons(){

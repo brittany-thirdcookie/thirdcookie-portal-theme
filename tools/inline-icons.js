@@ -28,7 +28,7 @@
    Accessibility:
    - n/a — developer build utility.
 
-   Last Updated: 2026-06-02
+   Last Updated: 2026-06-13
    Updated By:   Brittany
    ============================================= */
 'use strict';
@@ -40,16 +40,19 @@ const NAMES = [
   'invoice-text',
   'home',
   'folder',
-  'signature',
+  'briefcase-check',
   'folders',
   'calendar-today',
   'form',
   'external-link',
   'app-mac-plus',
   'notebook-pen',
+  'clock',
+  'mail',
+  'phone',
 ];
 
-const LAST_UPDATED = '2026-06-02';
+const LAST_UPDATED = '2026-06-13';
 const ICON_DIR = path.join(__dirname, '..', 'icons');
 const OUT = path.join(__dirname, '..', 'icons.css');
 
@@ -59,15 +62,23 @@ function dataUri(svg) {
   return 'data:image/svg+xml,' + encodeURIComponent(compact);
 }
 
-const map = NAMES.map((name) => {
+const glyphs = NAMES.map((name) => {
   const file = path.join(ICON_DIR, name + '.svg');
   if (!fs.existsSync(file)) {
     console.error('MISSING: icons/' + name + '.svg');
     process.exit(1);
   }
-  const uri = dataUri(fs.readFileSync(file, 'utf8'));
-  return '.tci-' + name + '{--src:url("' + uri + '");}';
-}).join('\n');
+  return { name: name, url: 'url("' + dataUri(fs.readFileSync(file, 'utf8')) + '")' };
+});
+
+// Two exposures per glyph, from one data URI:
+//  • --ti-<name> on :root — a mask token usable anywhere, incl. ::before/
+//    ::after pseudo-elements that can't carry a .tci-<name> class.
+//  • .tci-<name> — feeds --src for the .tci base class (left-nav icons),
+//    referencing the root var so the URI is defined exactly once.
+const vars    = ':root{\n' + glyphs.map((g) => '  --ti-' + g.name + ':' + g.url + ';').join('\n') + '\n}';
+const classes = glyphs.map((g) => '.tci-' + g.name + '{--src:var(--ti-' + g.name + ');}').join('\n');
+const map     = vars + '\n\n' + classes;
 
 const css = `/* =============================================
    THIRD COOKIE — CODE LIBRARY
@@ -127,7 +138,13 @@ const css = `/* =============================================
 .tci-persimmon{ color:var(--tc-persimmon,#e4572e); }
 .tci-charcoal { color:var(--tc-ink,#242323); }
 
-/* ---- ICON MAP — one line per used icon (generated) ---------------------- */
+/* ---- ICON MAP (generated) ----------------------------------------------
+   Each glyph is exposed two ways from a single inlined data URI:
+   • --ti-<name> on :root — a url() mask token for use ANYWHERE, including
+     ::before/::after pseudo-elements that can't take a .tci-<name> class
+     (portal-theme.css's .tcwp welcome page masks its icons this way).
+   • .tci-<name> — sets --src for the .tci base class (the left-nav icons
+     injected by portal-custom-code.js). */
 ${map}
 `;
 

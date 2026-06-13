@@ -27,7 +27,7 @@
    - Icons are decorative masks; give adjacent text or an aria-label so
      meaning isn't color/shape-only. currentColor tinting follows text.
 
-   Last Updated: 2026-06-02
+   Last Updated: 2026-06-13
    Updated By:   Brittany
    ============================================= */
 
@@ -56,14 +56,39 @@
 .tci-persimmon{ color:var(--tc-persimmon,#e4572e); }
 .tci-charcoal { color:var(--tc-ink,#242323); }
 
-/* ---- ICON MAP — one line per used icon (generated) ---------------------- */
-.tci-invoice-text{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2020h2v2H3V4h2v16Zm6%202H9v-2h2v2Zm4%200h-2v-2h2v2Zm6%200h-4v-2h2V4h2v18ZM9%2020H7v-2h2v2Zm4%200h-2v-2h2v2Zm4%200h-2v-2h2v2Zm-4-8H7v-2h6v2Zm4-4H7V6h10v2Zm2-4H5V2h14v2Z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-home{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M10%2020h4v-6h2v6h4v2H4v-2h4v-6h2v6Zm-6%200H2V10h2v10Zm18%200h-2V10h2v10Zm-8-6h-4v-2h4v2Zm-8-4H4V8h2v2Zm14%200h-2V8h2v2ZM8%208H6V6h2v2Zm10%200h-2V6h2v2Zm-8-2H8V4h2v2Zm6%200h-2V4h2v2Zm-2-2h-4V2h4v2Z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-folder{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M20%2020H4v-2h16v2ZM4%2018H2V6h2v12Zm18%200h-2V8h2v10ZM20%208H10V6H4V4h8v2h8v2Z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-signature{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M6%2019H4v-2h2v2Zm6%200h-2v-3h2v3Zm8%200h-2v-2h2v2ZM4%207h2V5h2v2h2v2H8v8H6V9H4v8H2V5h2v2Zm14%2010h-2v-4h2v4Zm4%200h-2v-2h2v2Zm-8-1h-2v-3h2v3Zm2-3h-2v-2h2v2Zm-4-2h-2V9h2v2ZM6%205H4V3h2v2Z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-folders{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M18%2022H2v-2h16v2ZM2%2020H0V8h2v12Zm18%200h-2v-2H6v-2h16v2h-2v2ZM6%2016H4V8H2V6h2V4h2v12Zm18%200h-2V6h2v10ZM14%204h8v2H12V4H6V2h8v2Z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-calendar-today{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M19%2022H5v-2h14v2ZM5%208h14V6h2v14h-2V10H5v10H3V6h2v2Zm8%204v6H7v-6h6Zm-4%202v2h2v-2H9ZM9%204h6V2h2v2h2v2H5V4h2V2h2v2Z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-form{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M19%2022H5v-2h14v2ZM5%2020H3v-2h2v2Zm16%200h-2v-2h2v2Zm-2-2H5v-2h14v2Zm-8-3H3v-2h8v2Zm8-4H5V9h14v2ZM5%209H3V7h2v2Zm16%200h-2V7h2v2Zm-2-2H5V5h14v2Zm-4-3H3V2h12v2Z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-external-link{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M17%2021H5v-2h12v2ZM5%2019H3V7h2v12Zm14%200h-2v-6h2v6Zm-8-4H9v-2h2v2Zm2-2h-2v-2h2v2Zm2-2h-2V9h2v2Zm6%200h-2V7h-2V5h-4V3h8v8Zm-4-2h-2V7h2v2Zm-6-2H5V5h6v2Z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-app-mac-plus{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%203h16v2H4zm0%2016h10v2H4zM2%205h2v14H2zm18%200h2v8h-2zM6%207h2v2H6zm4%200h2v2h-2zm4%200h2v2h-2zm4%208h2v6h-2z%22%2F%3E%3Cpath%20d%3D%22M16%2017h6v2h-6z%22%2F%3E%3C%2Fsvg%3E");}
-.tci-notebook-pen{--src:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M18%2020h2v2H6v-2h10v-8h2v8ZM6%207h2v2H6v2h2v2H6v2h2v2H6v3H4v-3H2v-2h2v-2H2v-2h2V9H2V7h2V4h2v3Zm16%2013h-2V10h2v10ZM16%208h2v2h-4V6h2v2Zm4%200h-2V6h2v2Zm-2-2h-2V4h2v2Zm4%200h-2V4h2v2Zm-8-2H6V2h8v2Zm6%200h-2V2h2v2Z%22%2F%3E%3C%2Fsvg%3E");}
+/* ---- ICON MAP (generated) ----------------------------------------------
+   Each glyph is exposed two ways from a single inlined data URI:
+   • --ti-<name> on :root — a url() mask token for use ANYWHERE, including
+     ::before/::after pseudo-elements that can't take a .tci-<name> class
+     (portal-theme.css's .tcwp welcome page masks its icons this way).
+   • .tci-<name> — sets --src for the .tci base class (the left-nav icons
+     injected by portal-custom-code.js). */
+:root{
+  --ti-invoice-text:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2020h2v2H3V4h2v16Zm6%202H9v-2h2v2Zm4%200h-2v-2h2v2Zm6%200h-4v-2h2V4h2v18ZM9%2020H7v-2h2v2Zm4%200h-2v-2h2v2Zm4%200h-2v-2h2v2Zm-4-8H7v-2h6v2Zm4-4H7V6h10v2Zm2-4H5V2h14v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-home:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M10%2020h4v-6h2v6h4v2H4v-2h4v-6h2v6Zm-6%200H2V10h2v10Zm18%200h-2V10h2v10Zm-8-6h-4v-2h4v2Zm-8-4H4V8h2v2Zm14%200h-2V8h2v2ZM8%208H6V6h2v2Zm10%200h-2V6h2v2Zm-8-2H8V4h2v2Zm6%200h-2V4h2v2Zm-2-2h-4V2h4v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-folder:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M20%2020H4v-2h16v2ZM4%2018H2V6h2v12Zm18%200h-2V8h2v10ZM20%208H10V6H4V4h8v2h8v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-briefcase-check:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%208h2v12H2zm18%200h2v6h-2zM4%206h16v2H4zm0%2014h8v2H4zM8%204h2v2H8zm2-2h4v2h-4zm4%202h2v2h-2zm0%2014h2v2h-2zm2%202h2v2h-2zm2-2h2v2h-2zm2-2h2v2h-2z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-folders:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M18%2022H2v-2h16v2ZM2%2020H0V8h2v12Zm18%200h-2v-2H6v-2h16v2h-2v2ZM6%2016H4V8H2V6h2V4h2v12Zm18%200h-2V6h2v10ZM14%204h8v2H12V4H6V2h8v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-calendar-today:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M19%2022H5v-2h14v2ZM5%208h14V6h2v14h-2V10H5v10H3V6h2v2Zm8%204v6H7v-6h6Zm-4%202v2h2v-2H9ZM9%204h6V2h2v2h2v2H5V4h2V2h2v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-form:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M19%2022H5v-2h14v2ZM5%2020H3v-2h2v2Zm16%200h-2v-2h2v2Zm-2-2H5v-2h14v2Zm-8-3H3v-2h8v2Zm8-4H5V9h14v2ZM5%209H3V7h2v2Zm16%200h-2V7h2v2Zm-2-2H5V5h14v2Zm-4-3H3V2h12v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-external-link:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M17%2021H5v-2h12v2ZM5%2019H3V7h2v12Zm14%200h-2v-6h2v6Zm-8-4H9v-2h2v2Zm2-2h-2v-2h2v2Zm2-2h-2V9h2v2Zm6%200h-2V7h-2V5h-4V3h8v8Zm-4-2h-2V7h2v2Zm-6-2H5V5h6v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-app-mac-plus:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%203h16v2H4zm0%2016h10v2H4zM2%205h2v14H2zm18%200h2v8h-2zM6%207h2v2H6zm4%200h2v2h-2zm4%200h2v2h-2zm4%208h2v6h-2z%22%2F%3E%3Cpath%20d%3D%22M16%2017h6v2h-6z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-notebook-pen:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M18%2020h2v2H6v-2h10v-8h2v8ZM6%207h2v2H6v2h2v2H6v2h2v2H6v3H4v-3H2v-2h2v-2H2v-2h2V9H2V7h2V4h2v3Zm16%2013h-2V10h2v10ZM16%208h2v2h-4V6h2v2Zm4%200h-2V6h2v2Zm-2-2h-2V4h2v2Zm4%200h-2V4h2v2Zm-8-2H6V2h8v2Zm6%200h-2V2h2v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-clock:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M18%2022H6v-2h12v2ZM6%2020H4v-2h2v2Zm14%200h-2v-2h2v2ZM4%2018H2V6h2v12Zm18%200h-2V6h2v12Zm-5-1h-2v-2h2v2Zm-2-2h-2v-2h2v2Zm-2-2h-2V6h2v7ZM6%206H4V4h2v2Zm14%200h-2V4h2v2Zm-2-2H6V2h12v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-mail:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M20%2020H4v-2h16v2ZM4%2018H2V6h2v12Zm18%200h-2V6h2v12Zm-8-4h-4v-2h4v2Zm-4-2H8v-2h2v2Zm6%200h-2v-2h2v2Zm-8-2H6V8h2v2Zm10%200h-2V8h2v2Zm2-4H4V4h16v2Z%22%2F%3E%3C%2Fsvg%3E");
+  --ti-phone:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M21%2022h-9v-2h9v2Zm-9-2h-2v-2h2v2Zm11%200h-2v-5h2v5Zm-13-2H8v-2h2v2Zm7-1h-4v-2h4v2Zm-9-1H6v-2h2v2Zm5-1h-2v-2h2v2Zm8%200h-4v-2h4v2ZM6%2014H4v-2h2v2Zm5-1H9v-2h2v2Zm-7-1H2V3h2v9Zm5-1H7V7h2v4Zm2-4H9V3h2v4ZM9%203H4V1h5v2Z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.tci-invoice-text{--src:var(--ti-invoice-text);}
+.tci-home{--src:var(--ti-home);}
+.tci-folder{--src:var(--ti-folder);}
+.tci-briefcase-check{--src:var(--ti-briefcase-check);}
+.tci-folders{--src:var(--ti-folders);}
+.tci-calendar-today{--src:var(--ti-calendar-today);}
+.tci-form{--src:var(--ti-form);}
+.tci-external-link{--src:var(--ti-external-link);}
+.tci-app-mac-plus{--src:var(--ti-app-mac-plus);}
+.tci-notebook-pen{--src:var(--ti-notebook-pen);}
+.tci-clock{--src:var(--ti-clock);}
+.tci-mail{--src:var(--ti-mail);}
+.tci-phone{--src:var(--ti-phone);}
