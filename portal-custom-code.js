@@ -21,6 +21,10 @@
    SHA via the GitHub API and loads that immutable commit, so
    pushes appear instantly during iteration (bypasses jsDelivr's
    branch cache).
+   Also swaps the left-nav glyphs: maps each nav row (by visible
+   label) to a pixel icon from icons.css, hides Moxie's original
+   glyph, and re-applies on SPA re-renders (timed passes + a
+   MutationObserver; the swap is idempotent).
 
    Dependencies:
    - portal-theme.css (this repo, main branch)
@@ -28,10 +32,13 @@
    - jsDelivr CDN
 
    Accessibility:
-   - Loader injects <link> tags only; no behavioral changes here.
-   - Accessibility concerns live in portal-theme.css.
+   - Nav icons are injected as decorative <i> with aria-hidden,
+     before the existing text label — meaning still comes from the
+     label, not the glyph.
+   - Otherwise loader injects <link> tags only; broader concerns
+     live in portal-theme.css.
 
-   Last Updated: 2026-06-02
+   Last Updated: 2026-06-13
    Updated By:   Brittany
    ============================================= */
 (function () {
@@ -75,5 +82,53 @@
       .catch(function (){ loadAll(BRANCH); });
   } else {
     loadAll(BRANCH);
+  }
+/* ---- 3) left-nav pixel icons ------------------------------------------
+     Map each nav row (matched by its visible label) to a glyph from icons.css.
+     The portal is a SPA, so the nav can re-render — we run a few times AND
+     observe the DOM, and the swap is idempotent (guards on an injected .tci).
+
+     NOTE: if you ALSO rename nav labels (the Moxie article's trick), do the
+     icon swap on the ORIGINAL names first, or key this map to the new text. */
+  var NAV_ICONS = {
+    'Home':       'home',
+    'Invoices':   'invoice-text',
+    'Projects':   'folders',
+    'Agreements': 'signature',
+    'Files':      'folder',
+    'Meetings':   'calendar-today',
+    'Forms':      'form',
+    'Requests':   'notebook-pen'
+    /* 'Time worked' is intentionally omitted — the licensed subset has no
+       clock/stopwatch glyph yet. Add one to the set + a line here to cover it. */
+  };
+
+  function applyNavIcons(){
+    var labels = document.querySelectorAll('.nav-label');
+    for (var i = 0; i < labels.length; i++) {
+      var label = labels[i];
+      var name  = NAV_ICONS[(label.innerText || label.textContent || '').trim()];
+      if (!name) continue;
+      var row = label.closest('.nav-link-expanded, .nav-link, a, li') || label.parentElement;
+      if (!row || row.querySelector('.tci')) continue;            // already done
+      var old = row.querySelector('.v-icon, .material-symbols-outlined, [class*="material-symbols"], i, svg');
+      if (old && old.className.indexOf('tci') === -1) old.style.display = 'none';   // hide Moxie's glyph
+      var ic = document.createElement('i');
+      ic.className = 'tci tci-' + name;
+      ic.setAttribute('aria-hidden', 'true');
+      label.parentNode.insertBefore(ic, label);                   // pixel icon before the label
+    }
+  }
+
+  [100, 500, 1500].forEach(function (t){ setTimeout(applyNavIcons, t); });
+
+  var scheduled = false;
+  function schedule(){
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(function (){ scheduled = false; applyNavIcons(); });
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
   }
 })();
