@@ -18,11 +18,13 @@
    Moxie client portal screen. Restyles surface, type, and
    controls; component-level rules added incrementally as
    real Moxie class names are captured (see
-   tools/capture-moxie-classes.js). The side nav + top bar are
-   themed to Warm Stone with persimmon active/hover states (keyed
-   to Moxie's real .nav-link-active/.active classes), and icons —
-   both the left-nav glyphs and the .tcwp welcome page — are drawn
-   from the self-hosted pixel set in icons.css.
+   tools/capture-moxie-classes.js). The top bar is Warm Stone and
+   the side nav a lighter near-white (--tc-nav) with a hairline
+   divider; active/hover rows go persimmon and the current page is
+   a raised white pill (keyed to Moxie's real .nav-link-active/
+   .active classes). Icons — both the left-nav glyphs and the .tcwp
+   welcome page — are drawn from the self-hosted pixel set in
+   icons.css.
 
    Dependencies:
    - Barlow (Google Fonts)
@@ -40,7 +42,8 @@
    - .tcwp hover motion (lift/translate + icon nudges) respects
      prefers-reduced-motion — WCAG 2.3.3
    - Pixel icons are decorative currentColor masks; nav active state is
-     also marked by a left rail + pill, not color alone (WCAG 1.4.1)
+     also marked by a raised white pill (ring + shadow), not color
+     alone (WCAG 1.4.1)
    - TODO: verify scrollbar-color contrast (WCAG 1.4.11)
    - TODO: confirm color token combinations meet AA on every surface
    - TODO: persimmon small-text labels/links land ~2.9–3.7:1 on light
@@ -56,6 +59,7 @@
   --tc-ink:#242323;        --tc-muted:#6f6a64;
   --tc-soft:#fcfcf9;       --tc-stone:#e6e2d3;
   --tc-stone-dk:#d8d2c0;   --tc-line:#e2ddd0;
+  --tc-nav:#fbfaf5;        /* side-nav fill (lighter than the stone top bar) */
   --tc-shadow-tan:#cdc3a9;
   --tc-display:"stratos","Barlow",system-ui,sans-serif;
   --tc-body:"Barlow",system-ui,-apple-system,sans-serif;
@@ -159,15 +163,19 @@ input, select, textarea{ border-radius:0 !important; }
    .workspace-settings footer. Pixel icons are injected as <i class="tci tci-*">
    by portal-custom-code.js. ------------------------------------------------- */
 
-/* (i) Nav + top bar surface → Warm Stone, so the whole chrome reads as one
-   brand band. !important is required to beat Moxie's --v-sidebar-base token
-   fill. The 4px persimmon left rail Moxie draws on #left-nav is on-brand — keep
-   it. THIS is the "nav colour didn't take" fix: the old file left nav alone. */
+/* (i) Chrome surfaces. The TOP BAR is Warm Stone (a calm brand band that holds
+   the logo + account controls); the SIDE NAV + its settings footer are the
+   lighter --tc-nav fill (matches Welcome Page v2 — the sidebar reads as a
+   quiet, near-white column distinct from the stone top band, not one heavy
+   slab). !important beats Moxie's --v-sidebar-base token fill. A hairline
+   right border keeps the near-white nav separated from the near-white page. */
+#top-nav,
+#top-nav-wrapper{ background-color:var(--tc-stone) !important; }
 #left-nav,
 .left-nav-expanded,
-#top-nav,
-#top-nav-wrapper,
-.workspace-settings{ background-color:var(--tc-stone) !important; }
+.workspace-settings{ background-color:var(--tc-nav) !important; }
+#left-nav,
+.left-nav-expanded{ border-right:1px solid var(--tc-line); }
 
 /* (ii) idle labels + injected pixel icons */
 .nav-label{ font-family:var(--tc-body); font-weight:500; color:var(--tc-ink); }
@@ -181,17 +189,20 @@ input, select, textarea{ border-radius:0 !important; }
 .nav-link-expanded:hover .tci{ color:var(--tc-persimmon); }
 
 /* (iv) ACTIVE current page — Moxie tags the row .nav-link-active AND/OR .active.
-   Scope under the nav so we never catch a stray .active elsewhere. Persimmon
-   label + icon, soft-white pill, crisp persimmon left rail. THIS is the
-   "active state didn't take" fix: the old file only targeted .nav-link-active
-   and missed Moxie's .active, and put no visible fill on it. */
+   Scope under the nav so we never catch a stray .active elsewhere. v2-style
+   treatment: a clean WHITE pill that reads on the light sidebar via a hairline
+   ring + soft shadow, with a persimmon label + icon. THIS replaces the earlier
+   inset persimmon rail, which doubled Moxie's own left border and left a notch
+   in the pill (the "weirdness" on the active row). border-radius keeps the pill
+   self-contained so it can't bleed past the nav edge. */
 #left-nav .nav-link-active,
 #left-nav a.active,
 #left-nav .active,
 .left-nav-expanded .nav-link-active,
 .left-nav-expanded .active{
-  background-color:var(--tc-soft) !important;
-  box-shadow:inset 3px 0 0 var(--tc-persimmon);
+  background-color:#fff !important;
+  border-radius:12px !important;
+  box-shadow:0 1px 3px rgba(36,35,35,.10), 0 0 0 1px rgba(36,35,35,.05);
 }
 #left-nav .nav-link-active .nav-label,
 #left-nav .nav-link-active .v-icon,
