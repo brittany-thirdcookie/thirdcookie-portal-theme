@@ -21,10 +21,10 @@
    tools/capture-moxie-classes.js). The top bar is Warm Stone and
    the side nav a lighter near-white (--tc-nav) with a hairline
    divider; active/hover rows go persimmon and the current page is
-   a raised white pill (keyed to Moxie's real .nav-link-active/
-   .active classes). Icons — both the left-nav glyphs and the .tcwp
-   welcome page — are drawn from the self-hosted pixel set in
-   icons.css.
+   a raised white pill (keyed to Moxie's real .nav-link-active /
+   .nav-link-expanded.active row classes). Icons — both the left-nav
+   glyphs and the .tcwp welcome page — are drawn from the self-hosted
+   pixel set in icons.css.
 
    Dependencies:
    - Barlow (Google Fonts)
@@ -177,6 +177,13 @@ input, select, textarea{ border-radius:0 !important; }
 #left-nav,
 .left-nav-expanded{ border-right:1px solid var(--tc-line); }
 
+/* (i-b) Breathing room under the logo. The logo lockup is the FIRST
+   .nav-link-expanded — a direct child of .column-format — while the nav rows
+   live in a SEPARATE scroll container after it, so :first-child targets only
+   the logo, never a nav row. Moxie ships it with mb-2 (8px), too tight against
+   "Home". THIS is the "menu too close to the logo" fix. */
+#left-nav .column-format > .nav-link-expanded:first-child{ margin-bottom:20px !important; }
+
 /* (ii) idle labels + injected pixel icons */
 .nav-label{ font-family:var(--tc-body); font-weight:500; color:var(--tc-ink); }
 .nav-link .tci,
@@ -188,32 +195,29 @@ input, select, textarea{ border-radius:0 !important; }
 .nav-link:hover .tci,
 .nav-link-expanded:hover .tci{ color:var(--tc-persimmon); }
 
-/* (iv) ACTIVE current page — Moxie tags the row .nav-link-active AND/OR .active.
-   Scope under the nav so we never catch a stray .active elsewhere. v2-style
-   treatment: a clean WHITE pill that reads on the light sidebar via a hairline
-   ring + soft shadow, with a persimmon label + icon. THIS replaces the earlier
-   inset persimmon rail, which doubled Moxie's own left border and left a notch
-   in the pill (the "weirdness" on the active row). border-radius keeps the pill
-   self-contained so it can't bleed past the nav edge. */
+/* (iv) ACTIVE current page. Moxie tags the ROW .nav-link-active AND also stamps
+   the inner label as .nav-label.active. The pill must dress the ROW only — a
+   bare .active selector ALSO matches that label and drew a stray white box +
+   shadow around just the word "Home" (the real active-state "weirdness"). So
+   the pill keys off .nav-link-active / .nav-link-expanded.active (the row),
+   never bare .active. border-radius + the row's own mx-2 keep it inset so it
+   can't bleed past the nav edge. */
 #left-nav .nav-link-active,
-#left-nav a.active,
-#left-nav .active,
 .left-nav-expanded .nav-link-active,
-.left-nav-expanded .active{
+#left-nav .nav-link-expanded.active,
+.left-nav-expanded .nav-link-expanded.active{
   background-color:#fff !important;
   border-radius:12px !important;
   box-shadow:0 1px 3px rgba(36,35,35,.10), 0 0 0 1px rgba(36,35,35,.05);
 }
+/* persimmon label + icon on the active row (the label itself carries .active) */
 #left-nav .nav-link-active .nav-label,
 #left-nav .nav-link-active .v-icon,
 #left-nav .nav-link-active .tci,
-#left-nav .active .nav-label,
-#left-nav .active .v-icon,
-#left-nav .active .tci,
 .left-nav-expanded .nav-link-active .nav-label,
 .left-nav-expanded .nav-link-active .tci,
-.left-nav-expanded .active .nav-label,
-.left-nav-expanded .active .tci{ color:var(--tc-persimmon) !important; }
+#left-nav .nav-link-expanded.active .nav-label,
+#left-nav .nav-link-expanded.active .tci{ color:var(--tc-persimmon) !important; }
 
 /* (v) footer settings link */
 .settings-link:hover,
@@ -254,6 +258,19 @@ input, select, textarea{ border-radius:0 !important; }
 .v-application .v-btn.accent:hover{
   background-color:var(--tc-persimmon-dk) !important;
 }
+
+/* ---- 5f. full-bleed custom welcome page --------------------------------
+   Moxie wraps page content in #main-content (a rounded panel) > .container
+   (max-width + gutter padding) > .pa-2 (padding). On the welcome page that
+   padding reveals the panel surface as a "white border" around our .tcwp
+   block, and the panel's border-radius rounds the top corners away from the
+   chrome. Strip both — but ONLY where our page lives, via :has(.tcwp), so every
+   OTHER portal screen keeps Moxie's default gutters + rounded content panel.
+   (.tcwp keeps its own comfortable internal padding, so content still breathes
+   — we're only removing the doubled outer gutter, not all spacing.) */
+.v-application .container:has(.tcwp),
+.v-application .pa-2:has(.tcwp){ padding:0 !important; max-width:none !important; }
+#main-content:has(.tcwp){ border-radius:0 !important; }
 
 /* =========================================================================
    6. CUSTOM WELCOME PAGE  (.tcwp)
