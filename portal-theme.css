@@ -49,7 +49,7 @@
    - TODO: persimmon small-text labels/links land ~2.9–3.7:1 on light
      surfaces (under AA) — treat as accent, not body copy
 
-   Last Updated: 2026-06-13
+   Last Updated: 2026-06-15
    Updated By:   Brittany
    ============================================= */
 
@@ -270,7 +270,11 @@ input, select, textarea{ border-radius:0 !important; }
    — we're only removing the doubled outer gutter, not all spacing.) */
 .v-application .container:has(.tcwp),
 .v-application .pa-2:has(.tcwp){ padding:0 !important; max-width:none !important; }
-#main-content:has(.tcwp){ border-radius:0 !important; }
+/* Square the content panel on EVERY screen — the rounded top corners read as a
+   floating card detached from the chrome; the brand wants the content flush to
+   the stone top bar + nav. (Cards/surfaces inside a page keep their own 16px
+   radius — this is only the outer Moxie panel.) */
+#main-content{ border-radius:0 !important; }
 
 /* =========================================================================
    6. CUSTOM WELCOME PAGE  (.tcwp)
@@ -299,10 +303,11 @@ input, select, textarea{ border-radius:0 !important; }
 .tcwp a{color:inherit;text-decoration:none;}
 .tcwp .wrap{max-width:1180px;margin:0 auto;}
 
-/* hero bar — dashboard bar with the editorial headline */
+/* hero bar — editorial headline, full-width (the orphaned "what's new" card
+   was removed; the welcome statement is the centerpiece). */
 .tcwp .hero{border:2px solid var(--ink);border-radius:20px;background:var(--stone);
-  padding:clamp(28px,3vw,44px);display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;justify-content:space-between;}
-.tcwp .hero .hl{flex:1 1 380px;min-width:0;}
+  padding:clamp(32px,3.4vw,52px);}
+.tcwp .hero .hl{min-width:0;}
 .tcwp .eyebrow{font-family:var(--dot);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--persimmon);margin-bottom:16px;}
 .tcwp .hero h1{font-family:var(--display);font-weight:500;font-size:clamp(44px,6vw,68px);line-height:1.0;letter-spacing:-.02em;margin:0 0 18px;}
 .tcwp .hero h1 .dot{color:var(--persimmon);}
