@@ -15,7 +15,7 @@
 
    Description:
    Injects brand fonts (Barlow via Google Fonts, Stratos +
-   ab-megadot9 via Adobe Typekit) and loads portal-theme.css +
+   ab-megadot9 via the Adobe Typekit JS loader) and loads portal-theme.css +
    icons.css from this repo via jsDelivr CDN. Includes a
    LIVE_PREVIEW toggle that resolves the branch's latest commit
    SHA via the GitHub API and loads that immutable commit, so
@@ -38,7 +38,7 @@
    - Otherwise loader injects <link> tags only; broader concerns
      live in portal-theme.css.
 
-   Last Updated: 2026-06-13
+   Last Updated: 2026-11-02
    Updated By:   Brittany
    ============================================= */
 (function () {
@@ -51,9 +51,28 @@
     head.appendChild(l);
   }
 
-  // 1) Brand fonts — Barlow (body) + Stratos & Megadot (Adobe kit)
+  // 1) Brand fonts — Barlow (body, Google Fonts) + Stratos & Megadot (Adobe kit).
   link('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
-  link('https://use.typekit.net/wte8zqm.css');
+  // Adobe kit via the JS embed, NOT the .css form. The kit's .css form is
+  // domain-locked and 412s on hub.thirdcookie.com, so Stratos/Megadot silently
+  // fall back to Barlow. The JS loader isn't domain-locked and works here
+  // (same embed the Portal Preview uses).
+  (function (d) {
+    var c = { kitId: 'wte8zqm', scriptTimeout: 3000, async: true },
+        h = d.documentElement,
+        t = setTimeout(function () { h.className = h.className.replace(/\bwf-loading\b/g, '') + ' wf-inactive'; }, c.scriptTimeout),
+        tk = d.createElement('script'), f = false, s = d.getElementsByTagName('script')[0], a;
+    h.className += ' wf-loading';
+    tk.src = 'https://use.typekit.net/' + c.kitId + '.js';
+    tk.async = true;
+    tk.onload = tk.onreadystatechange = function () {
+      a = this.readyState;
+      if (f || a && a != 'complete' && a != 'loaded') return;
+      f = true; clearTimeout(t);
+      try { Typekit.load(c); } catch (e) {}
+    };
+    s.parentNode.insertBefore(tk, s);
+  })(document);
 
   // 2) Hosted stylesheets (theme + icons).
   //    jsDelivr caches the @main branch->commit resolution for ~12h, so loading
@@ -111,7 +130,10 @@
       var row = label.closest('.nav-link-expanded, .nav-link, a, li') || label.parentElement;
       if (!row || row.querySelector('.tci')) continue;            // already done
       var old = row.querySelector('.v-icon, .material-symbols-outlined, [class*="material-symbols"], i, svg');
-      if (old && old.className.indexOf('tci') === -1) old.style.display = 'none';   // hide Moxie's glyph
+      // classList works on BOTH HTML and SVG elements; old.className.indexOf throws
+      // on an <svg> (its className is an SVGAnimatedString, not a string) — which
+      // crashed applyNavIcons on every pass because Moxie's nav glyphs are SVGs.
+      if (old && !old.classList.contains('tci')) old.style.display = 'none';   // hide Moxie's glyph
       var ic = document.createElement('i');
       ic.className = 'tci tci-' + name;
       ic.setAttribute('aria-hidden', 'true');
